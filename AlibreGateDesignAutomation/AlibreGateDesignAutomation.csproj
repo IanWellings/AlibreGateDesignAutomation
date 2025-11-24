@@ -70,6 +70,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Alibre\TallGardenGate\25x25x2.5_SHS_001.AD_PRT" />
+    <None Include="Alibre\TallGardenGate\25x25x2.5_SHS_002.AD_PRT" />
+    <None Include="Alibre\TallGardenGate\25x25x2.5_SHS_003.AD_PRT" />
+    <None Include="Alibre\TallGardenGate\25x5_FLAT_001.AD_PRT" />
+    <None Include="Alibre\TallGardenGate\25x5_FLAT_002.AD_PRT" />
+    <None Include="Alibre\TallGardenGate\90x14x6_RING_001.AD_PRT" />
+    <None Include="Alibre\TallGardenGate\TallGardenGate.AD_ASM" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -82,6 +89,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Alibre\AlibreX.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
