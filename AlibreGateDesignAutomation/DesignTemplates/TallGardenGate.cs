@@ -24,6 +24,9 @@ namespace AlibreGateDesignAutomation.DesignTemplates
                 string oPart3 = @"C:\\Files\\MiM\\Templates\\TallGardenGate\\25x25x2.5_SHS_001.AD_PRT";
                 string oPart4 = @"C:\\Files\\MiM\\Templates\\TallGardenGate\\25x25x2.5_SHS_002.AD_PRT";
                 string oPart5 = @"C:\\Files\\MiM\\Templates\\TallGardenGate\\25x25x2.5_SHS_003.AD_PRT";
+                string oPart6 = @"C:\\Files\\MiM\\Templates\\TallGardenGate\\90x14x6_RING_001.AD_PRT";
+                string oPart7 = @"C:\\Files\\MiM\\Templates\\TallGardenGate\\12_ROUND_001.AD_PRT";
+                string oPart8 = @"C:\\Files\\MiM\\Templates\\TallGardenGate\\12_ROUND_002.AD_PRT";
 
                 //CAD input parameters
                 double gate_height = 0.1 * height; //Set input value and convert mm to cm
@@ -43,6 +46,9 @@ namespace AlibreGateDesignAutomation.DesignTemplates
                     double oTopRailheadInitialQty = Convert.ToInt32(Math.Floor((gate_width - 2.5) / 10));
                     double oTopRailheadActualQty = oTopRailheadInitialQty + 2;
                     double oTopRailheadSpacing = (gate_width - 2.5) / (oTopRailheadActualQty - 1);
+                    double oTotalGap = oFlatWidth % 9;
+                    double oRingQty = Convert.ToInt32(Math.Floor(oFlatWidth / 9));
+                    double oRingGap = oTotalGap / (oRingQty + 1);
 
                     //Connect to Alibre
                     hook = (IAutomationHook)Marshal.GetActiveObject("AlibreX.AutomationHook");
@@ -88,6 +94,11 @@ namespace AlibreGateDesignAutomation.DesignTemplates
                     assembly1.Parameters.OpenParameterTransaction();
                     assembly1.Parameters.Item("oTopRailheadQty").Value = oTopRailheadActualQty;
                     assembly1.Parameters.Item("oTopRailheadSpacing").Value = oTopRailheadSpacing;
+                    assembly1.RegenerateDesign(true);
+                    assembly1.Parameters.Item("oRingInitialOffset").Value = oRingGap;
+                    assembly1.Parameters.Item("oRingSpacing").Value = oRingGap + 4.5;
+                    assembly1.Parameters.Item("oRingQty").Value = oRingQty;
+                    assembly1.RegenerateDesign(true);
                     assembly1.Parameters.CloseParameterTransaction();
                     assembly1.Close(true);
                 }

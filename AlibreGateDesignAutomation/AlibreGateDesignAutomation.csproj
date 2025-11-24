@@ -70,13 +70,19 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="Alibre\TallGardenGate\25x25x2.5_SHS_001.AD_PRT" />
-    <None Include="Alibre\TallGardenGate\25x25x2.5_SHS_002.AD_PRT" />
-    <None Include="Alibre\TallGardenGate\25x25x2.5_SHS_003.AD_PRT" />
-    <None Include="Alibre\TallGardenGate\25x5_FLAT_001.AD_PRT" />
-    <None Include="Alibre\TallGardenGate\25x5_FLAT_002.AD_PRT" />
-    <None Include="Alibre\TallGardenGate\90x14x6_RING_001.AD_PRT" />
-    <None Include="Alibre\TallGardenGate\TallGardenGate.AD_ASM" />
+    <None Include="Alibre\Library\Handles\Latch Deadlock Traditional Handle.AD_PRT" />
+    <None Include="Alibre\Library\Railheads\Railhead - H 116 x W 35mm - 16mm Rd Base.AD_PRT" />
+    <None Include="Alibre\Library\Sectional\FLAT_25x5_001.AD_PRT" />
+    <None Include="Alibre\Library\Sectional\SHSx25x25x2.5_001.AD_PRT" />
+    <None Include="Alibre\Templates\TallGardenGate\12_ROUND_001.AD_PRT" />
+    <None Include="Alibre\Templates\TallGardenGate\12_ROUND_002.AD_PRT" />
+    <None Include="Alibre\Templates\TallGardenGate\25x25x2.5_SHS_001.AD_PRT" />
+    <None Include="Alibre\Templates\TallGardenGate\25x25x2.5_SHS_002.AD_PRT" />
+    <None Include="Alibre\Templates\TallGardenGate\25x25x2.5_SHS_003.AD_PRT" />
+    <None Include="Alibre\Templates\TallGardenGate\25x5_FLAT_001.AD_PRT" />
+    <None Include="Alibre\Templates\TallGardenGate\25x5_FLAT_002.AD_PRT" />
+    <None Include="Alibre\Templates\TallGardenGate\90x14x6_RING_001.AD_PRT" />
+    <None Include="Alibre\Templates\TallGardenGate\TallGardenGate.AD_ASM" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
