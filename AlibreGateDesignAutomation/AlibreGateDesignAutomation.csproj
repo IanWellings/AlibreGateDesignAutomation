@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Alibre\AlibreX.dll" />
+    <Content Include="Images\gui.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
