@@ -89,18 +89,24 @@ namespace AlibreGateDesignAutomation.DesignTemplates
                     part5.Parameters.CloseParameterTransaction();
                     part5.Close(true);
 
-                    //Open assembly1 file and edit parameters    
+                    //Open assembly file and edit parameters    
                     IADAssemblySession assembly1 = (IADAssemblySession)root.OpenFile(oAssembly1);
                     assembly1.Parameters.OpenParameterTransaction();
                     assembly1.Parameters.Item("oTopRailheadQty").Value = oTopRailheadActualQty;
                     assembly1.Parameters.Item("oTopRailheadSpacing").Value = oTopRailheadSpacing;
                     assembly1.RegenerateDesign(true);
-                    assembly1.Parameters.Item("oRingInitialOffset").Value = oRingGap;
-                    assembly1.Parameters.Item("oRingSpacing").Value = oRingGap + 4.5;
-                    assembly1.Parameters.Item("oRingQty").Value = oRingQty;
-                    assembly1.RegenerateDesign(true);
                     assembly1.Parameters.CloseParameterTransaction();
                     assembly1.Close(true);
+
+                    //Reopen assembly file and edit more parameters    
+                    IADAssemblySession assembly2 = (IADAssemblySession)root.OpenFile(oAssembly1);
+                    assembly2.Parameters.OpenParameterTransaction();
+                    assembly2.Parameters.Item("oRingInitialOffset").Value = oRingGap;
+                    assembly2.Parameters.Item("oRingQty").Value = oRingQty;
+                    assembly2.Parameters.Item("oRingSpacing").Value = oRingGap + 9;
+                    assembly2.RegenerateDesign(true);
+                    assembly2.Parameters.CloseParameterTransaction();
+                    assembly2.Close(true);
                 }
 
 
