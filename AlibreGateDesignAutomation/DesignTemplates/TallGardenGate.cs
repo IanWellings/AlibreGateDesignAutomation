@@ -17,6 +17,10 @@ namespace AlibreGateDesignAutomation.DesignTemplates
             IAutomationHook hook;
             try
             {
+                //TAKE A COPY OF THE TEMPLATE FILE FOR EDITING
+                //THE LINEAR PATTERN DOESN'T LIKE A QTY GREATER THAN THE EXISTING?
+
+
                 //CAD file paths
                 string oAssembly1 = @"C:\\Files\\MiM\\Templates\\TallGardenGate\\TallGardenGate.AD_ASM";
                 string oPart1 = @"C:\\Files\\MiM\\Templates\\TallGardenGate\\25x5_FLAT_001.AD_PRT";
@@ -24,9 +28,8 @@ namespace AlibreGateDesignAutomation.DesignTemplates
                 string oPart3 = @"C:\\Files\\MiM\\Templates\\TallGardenGate\\25x25x2.5_SHS_001.AD_PRT";
                 string oPart4 = @"C:\\Files\\MiM\\Templates\\TallGardenGate\\25x25x2.5_SHS_002.AD_PRT";
                 string oPart5 = @"C:\\Files\\MiM\\Templates\\TallGardenGate\\25x25x2.5_SHS_003.AD_PRT";
-                string oPart6 = @"C:\\Files\\MiM\\Templates\\TallGardenGate\\90x14x6_RING_001.AD_PRT";
-                string oPart7 = @"C:\\Files\\MiM\\Templates\\TallGardenGate\\12_ROUND_001.AD_PRT";
-                string oPart8 = @"C:\\Files\\MiM\\Templates\\TallGardenGate\\12_ROUND_002.AD_PRT";
+                string oPart6 = @"C:\\Files\\MiM\\Templates\\TallGardenGate\\12_ROUND_001.AD_PRT";
+                string oPart7 = @"C:\\Files\\MiM\\Templates\\TallGardenGate\\12_ROUND_002.AD_PRT";
 
                 //CAD input parameters
                 double gate_height = 0.1 * height; //Set input value and convert mm to cm
@@ -44,8 +47,11 @@ namespace AlibreGateDesignAutomation.DesignTemplates
                     double oFlatWidth = gate_width - 2.5 - 2.5;
                     double oBoxHeight = gate_height - 11.8;
                     double oTopRailheadInitialQty = Convert.ToInt32(Math.Floor((gate_width - 2.5) / 10));
-                    double oTopRailheadActualQty = oTopRailheadInitialQty + 2;
-                    double oTopRailheadSpacing = (gate_width - 2.5) / (oTopRailheadActualQty - 1);
+                    double oTopRailheadActualQty = Convert.ToInt32(oTopRailheadInitialQty + 2);
+                    double oTopRailheadSpacing = Math.Round((gate_width - 2.5) / (oTopRailheadActualQty - 1), 1);
+                    MessageBox.Show(Convert.ToString(oTopRailheadInitialQty));
+                    MessageBox.Show(Convert.ToString(oTopRailheadActualQty));
+                    MessageBox.Show(Convert.ToString(oTopRailheadSpacing));
                     double oTotalGap = oFlatWidth % 9;
                     double oRingQty = Convert.ToInt32(Math.Floor(oFlatWidth / 9));
                     double oRingGap = oTotalGap / (oRingQty + 1);
@@ -89,6 +95,10 @@ namespace AlibreGateDesignAutomation.DesignTemplates
                     part5.Parameters.CloseParameterTransaction();
                     part5.Close(true);
 
+
+                    //TEST MERGING THE BELOW INTO ONE TRANSACTION
+                    //NOW THAT THE LINEAR PATTERN QTY ISSUE HAS BEEN RESOLVED
+
                     //Open assembly file and edit parameters    
                     IADAssemblySession assembly1 = (IADAssemblySession)root.OpenFile(oAssembly1);
                     assembly1.Parameters.OpenParameterTransaction();
@@ -107,6 +117,16 @@ namespace AlibreGateDesignAutomation.DesignTemplates
                     assembly2.RegenerateDesign(true);
                     assembly2.Parameters.CloseParameterTransaction();
                     assembly2.Close(true);
+
+                    //Reopen assembly file and edit more parameters    
+                    IADAssemblySession assembly3 = (IADAssemblySession)root.OpenFile(oAssembly1);
+                    assembly3.Parameters.OpenParameterTransaction();
+                    assembly3.Parameters.Item("oRailheadInitialOffset").Value = oRingGap + 4.5;
+                    assembly3.Parameters.Item("oRailheadQty").Value = oRingQty - 1;
+                    assembly3.Parameters.Item("oRailheadSpacing").Value = oRingGap + 9;
+                    assembly3.RegenerateDesign(true);
+                    assembly3.Parameters.CloseParameterTransaction();
+                    assembly3.Close(true);
                 }
 
 
