@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,7 +66,6 @@ namespace AlibreGateDesignAutomation.DesignTemplates
                 string oPart4 = @"C:\\Files\\MiM\\Design\\25x25x2.5_SHS_002.AD_PRT";
                 string oPart5 = @"C:\\Files\\MiM\\Design\\25x25x2.5_SHS_003.AD_PRT";
                 string oPart6 = @"C:\\Files\\MiM\\Design\\12_ROUND_001.AD_PRT";
-                string oPart7 = @"C:\\Files\\MiM\\Design\\12_ROUND_002.AD_PRT";
 
                 //CAD input parameters
                 double gate_height = 0.1 * height; //Set input value and convert mm to cm
@@ -82,9 +82,7 @@ namespace AlibreGateDesignAutomation.DesignTemplates
                     //CAD output parameters
                     double oFlatWidth = gate_width - 2.5 - 2.5;
                     double oBoxHeight = gate_height - 11.8;
-                    double oTopRailheadInitialQty = Convert.ToInt32(Math.Floor((gate_width - 2.5) / 10));
-                    double oTopRailheadActualQty = Convert.ToInt32(oTopRailheadInitialQty + 2);
-                    double oTopRailheadSpacing = Math.Round((gate_width - 2.5) / (oTopRailheadActualQty - 1), 1);
+                    double oTopRailheadQty = Convert.ToInt32(Math.Floor((gate_width - 2.5) / 10));               
                     double oTotalGap = oFlatWidth % 9;
                     double oRingQty = Convert.ToInt32(Math.Floor(oFlatWidth / 9));
                     double oRingGap = oTotalGap / (oRingQty + 1);
@@ -135,38 +133,34 @@ namespace AlibreGateDesignAutomation.DesignTemplates
                     part6.Parameters.CloseParameterTransaction();
                     part6.Close(true);
 
-
-                    //TEST MERGING THE BELOW INTO ONE TRANSACTION
-                    //NOW THAT THE LINEAR PATTERN QTY ISSUE HAS BEEN RESOLVED
-
                     //Open assembly file and edit parameters    
                     IADAssemblySession assembly1 = (IADAssemblySession)root.OpenFile(oAssembly1);
                     assembly1.Parameters.OpenParameterTransaction();
-                    assembly1.Parameters.Item("oTopRailheadQty").Value = oTopRailheadActualQty;
-                    assembly1.Parameters.Item("oTopRailheadSpacing").Value = oTopRailheadSpacing;
+                    
+                    assembly1.Parameters.Item("oTopRailheadInitialOffset").Value = -((1.5 * oRingGap) + 9);
+                    assembly1.Parameters.Item("oTopRailheadQty").Value = oTopRailheadQty;
+                    assembly1.Parameters.Item("oTopRailheadSpacing").Value = oRingGap + 9;
+
+                    assembly1.Parameters.Item("oRingInitialOffset").Value = oRingGap;
+                    assembly1.Parameters.Item("oRingQty").Value = oRingQty;
+                    assembly1.Parameters.Item("oRingSpacing").Value = oRingGap + 9;
+
+                    assembly1.Parameters.Item("oRailheadInitialOffset").Value = oRingGap + 4.5;
+                    assembly1.Parameters.Item("oRailheadQty").Value = oRingQty - 1;
+                    assembly1.Parameters.Item("oRailheadSpacing").Value = oRingGap + 9;
+
+                    assembly1.Parameters.Item("oBottomBarInitialOffset").Value = oRingGap + 4.5;
+                    assembly1.Parameters.Item("oBottomBarQty").Value = (oRingQty * 2) - 1;
+                    assembly1.Parameters.Item("oBottomBarSpacing").Value = (oRingGap/2) + 4.5;
+
+                    assembly1.Parameters.Item("oTopBarInitialOffset").Value = (1.5 * oRingGap) + 9;
+                    assembly1.Parameters.Item("oTopBarQty").Value = oRingQty - 1;
+                    assembly1.Parameters.Item("oTopBarSpacing").Value = oRingGap + 9;
+
                     assembly1.RegenerateDesign(true);
                     assembly1.Parameters.CloseParameterTransaction();
                     assembly1.Close(true);
 
-                    //Reopen assembly file and edit more parameters    
-                    IADAssemblySession assembly2 = (IADAssemblySession)root.OpenFile(oAssembly1);
-                    assembly2.Parameters.OpenParameterTransaction();
-                    assembly2.Parameters.Item("oRingInitialOffset").Value = oRingGap;
-                    assembly2.Parameters.Item("oRingQty").Value = oRingQty;
-                    assembly2.Parameters.Item("oRingSpacing").Value = oRingGap + 9;
-                    assembly2.RegenerateDesign(true);
-                    assembly2.Parameters.CloseParameterTransaction();
-                    assembly2.Close(true);
-
-                    //Reopen assembly file and edit more parameters    
-                    IADAssemblySession assembly3 = (IADAssemblySession)root.OpenFile(oAssembly1);
-                    assembly3.Parameters.OpenParameterTransaction();
-                    assembly3.Parameters.Item("oRailheadInitialOffset").Value = oRingGap + 4.5;
-                    assembly3.Parameters.Item("oRailheadQty").Value = oRingQty - 1;
-                    assembly3.Parameters.Item("oRailheadSpacing").Value = oRingGap + 9;
-                    assembly3.RegenerateDesign(true);
-                    assembly3.Parameters.CloseParameterTransaction();
-                    assembly3.Close(true);
                 }
 
 
